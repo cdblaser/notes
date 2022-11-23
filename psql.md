@@ -1,4 +1,5 @@
 # Postgres Notes:
+
 ## How to set up express and react:
 
 1. in project directory, create two folders - client and server
