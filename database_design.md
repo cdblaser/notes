@@ -99,7 +99,7 @@ Physical
 
 - e.g. polygamous marriage - multiple men can be married to multiple women, and vice versa.
 - e.g. Classes and Students tables - students can take multiple classes, and classes can have multiple students.
-- Allegedly, many-to-many relationships _DO NOT WORK_ in relationial databases.
+- Allegedly, many-to-many relationships _DO NOT WORK_ in relational databases.
 
 ## Designing one-to-one relationships
 
@@ -383,24 +383,33 @@ Cons:
 - expect to used composite indexes by themselves, unless you set it up to optimize multiple queries
 
 ## Data Types
+
 - 3 main categories of data types:
+
 1. Date - stores like this 02:22:1998 23:22:15. Depends on DBMS
+
 - Timestamps will update when you update a column
+
 2. Numeric - decimal(10) and binary(2). Floating point is stored as binary and can be displayed as decimal. There is also unsigned, signed, etc.
+
 - Binary has problems with math (so does decimal, but decimal is better). e.g. it is impossible to store the value 0.1 in binary
+
 3. String (Var, Varchar(x) where x = # characters/digits). Var(8) means that there will be 8 characters always, so if you input 'blunt' as a value, there will be 3 empty spaces. Varchar(8) is variable meaning size can actually change depending on value.
 
 ## Joins
+
 - Joins take a mess and turns it into something beautiful (takes multiple tables and turns them into one table). Joins are a part of DML (data manipulation language)
 - e.g. user table --- user_comment table --- comment table. user_comment table will have user_id and comment_id columns, but if you're dipslaying the comment with the username in the front-end, you can't just pull from the user_comment table. You have to pull the username from the user table. So you will use a join
 - even if you're the database designer, you need to consider your database design around joins
 
 ### Inner Join
-- e.g. customer table (customer_id, fn, ln) and card table (card_id, customer_id, limit, amount_paid, amount_owed). Now make a card_customer table using an inner join (fn, ln, amount_owed). 
+
+- e.g. customer table (customer_id, fn, ln) and card table (card_id, customer_id, limit, amount_paid, amount_owed). Now make a card_customer table using an inner join (fn, ln, amount_owed).
 - venn diagram - customers with card (or cards with customers) are the middle of the diagram.
 - SELECT fn, ln, amount_owed FROM customer INNER JOIN card ON customer.customer_id = card.customer_id
 
 ### Inner Join across 3 tables
+
 - first join two tables, then join that result table with the 3rd table
 - e.g. customer table (customer_id, fn, ln), card table (card_id, customer_id, card_type_id, max_amount), card_type table (card_type_id, card_type).
 - we want one table with fn, ln, max_amount, and card_type
@@ -413,30 +422,37 @@ Cons:
 - SELECT username, title, comment FROM user INNER JOIN comment ON user.user_id = comment.user_id INNER JOIN video ON video.video_id = comment.video_id
 
 ## Introduction to Outer Joins
+
 - JOIN condition from INNER JOIN example: customer.customer_id = card.customer_id
 - Three types of Outer Joins: LEFT, RIGHT, and FULL
+
 1. LEFT JOIN - ALL rows from left table will be returned. On the right table, it will only return customer_ids that match from the left table
 2. RIGHT JOIN - ALL rows from right table will be returned. On the left table, it will only return customer_ids that much from the right table
 3. FULL JOIN - not covered in this video
+
 - LEFT and RIGHT JOINs can be similar if you have NOT NULL declared for certain columns
 - LEFT vs RIGHT - depends on your query - SELECT username FROM user INNER JOIN comment - user table is left, comment table is right
 
 ## JOIN with NOT NULL columns
+
 - e.g. user table and comment table (user_id NOT NULL)
 - INNER JOIN will return all users that commented
 - LEFT OUTER JOIN (comment table on left) returns all comments associated with users, so it's same as INNER JOIN
 - LEFT OUTER JOIN (user table on left) returns all users and associated comments
 
 ## OUTER JOIN across 3 tables
+
 - e.g. user table, comment table, video table
 - first, LOJ user table and comment table. This returns all users and all comments
 - now do ROJ the LOJ'd table and video table. This returns all videos, all comments, but only some users
 
-## Alias 
+## Alias
+
 - an alias is when you rename something. You can do this when writing SQL statements
 - SELECT email AS contact, fn AS first name, ln AS last name FROM user
 
 ## SELF JOIN
+
 - table referencing itself. useful for situations such as:
 - e.g. user has a reference for a deal on a website
 - user_id, fn, ln, email, referred_by columns. reffered_by column references user_id. If you want the referred_by column to spit out an email or username instead of an id, then use self-join
@@ -444,4 +460,4 @@ Cons:
 - SELECT user AS v1 JOIN user AS v2
 - e.g. v1 table (user_id, fn, ln, email) and v2 table (referred_by, person's email)
 - SELECT v1.email AS referred, v2.email AS referrer FROM user AS v1 JOIN (defaults to inner join) user AS v2 ON v1.referred_by = v2.user_id
-- 
+-
