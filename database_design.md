@@ -455,7 +455,7 @@ Cons:
 
 - table referencing itself. useful for situations such as:
 - e.g. user has a reference for a deal on a website
-- user_id, fn, ln, email, referred_by columns. reffered_by column references user_id. If you want the referred_by column to spit out an email or username instead of an id, then use self-join
+- user_id, fn, ln, email, referred_by columns. referred_by column references user_id. If you want the referred_by column to spit out an email or username instead of an id, then use self-join
 - e.g. two tables, v1, and v2
 - SELECT user AS v1 JOIN user AS v2
 - e.g. v1 table (user_id, fn, ln, email) and v2 table (referred_by, person's email)
